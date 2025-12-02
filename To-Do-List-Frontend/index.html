@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ToDo - Smart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <header class="card-header">
+      <h1>To-Do • Smart</h1>
+      <p class="sub">Do one thing that scares you everyday</p>
+    </header>
+
+    <section class="input-ḁrea">
+      <form id="add-form" class="add-form" autocomplete="off">
+        <input id="task-input" class="task-input" name="task" placeholder="Write a task and press Enter" />
+        <button id="add-btn" class="icon-btn" title="Add task">➤</button>
+      </form>
+
+      <div class="filters">
+        <button id="btn-todo" class="filter-btn active">To-Do</button>
+        <button id="btn-completed" class="filter-btn">Completed</button>
+        <button id="btn-all" class="filter-btn">All</button>
+      </div>
+    </section>
+
+    <section id="list-wrap" class="list-wrap">
+      <div id="loading" class="loading">Loading…</div>
+      <ul id="task-list" class="task-list"></ul>
+      <div id="empty" class="empty">No tasks to show</div>
+    </section>
+
+    <footer class="card-footer">
+      <small>Built with Spring Boot backend and MySQL DataBase</small>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
