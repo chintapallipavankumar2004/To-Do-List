@@ -1,6 +1,6 @@
-// app.js - connect to your Spring Boot backend
+// app.js - frontend logic (works with your existing Spring Boot endpoints)
 (() => {
-  const API_BASE = 'http://127.0.0.1:8080'; // change to your host if needed
+  const API_BASE = 'http://127.0.0.1:8080'; // change if your backend host/port differs
 
   // elements
   const listEl = document.getElementById('task-list');
@@ -15,26 +15,11 @@
   let currentFilter = 'todo'; // 'todo' | 'completed' | 'all'
   let cache = [];
 
-  // helpers
-  const shortId = id => {
-    const s = String(id ?? '');
-    return s.length > 6 ? s.slice(-6) : s;
-  };
+  const showLoading = (flag=true) => loadingEl.style.display = flag ? 'block' : 'none';
+  const showEmpty = (flag=true) => emptyEl.style.display = flag ? 'block' : 'none';
+  function setActive(btn){ [todoBtn, compBtn, allBtn].forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 
-  const showLoading = (flag=true) => {
-    loadingEl.style.display = flag ? 'block' : 'none';
-  };
-
-  const showEmpty = (flag=true) => {
-    emptyEl.style.display = flag ? 'block' : 'none';
-  };
-
-  function setActive(btn){
-    [todoBtn, compBtn, allBtn].forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  // fetch tasks
+  // fetch tasks from backend
   async function fetchTasks(){
     showLoading(true);
     try {
@@ -44,35 +29,26 @@
       renderList();
     } catch(err){
       console.error('fetch error', err);
-      listEl.innerHTML = '<li class="task-item"><div class="left"><div class="task-name" style="color:tomato">Unable to contact API</div></div></li>';
-    } finally {
-      showLoading(false);
-    }
+      listEl.innerHTML = `<li class="task-item"><div class="left"><div class="task-name" style="color:tomato">Unable to contact API</div></div></li>`;
+    } finally { showLoading(false); }
   }
 
-  // render filtered list
+  // render tasks (ID is not shown in UI)
   function renderList(){
     listEl.innerHTML = '';
-    let tasks = cache.slice().reverse(); // show newest first
+    let tasks = cache.slice().reverse(); // newest first
     if (currentFilter === 'todo') tasks = tasks.filter(t => !Boolean(t.status));
     if (currentFilter === 'completed') tasks = tasks.filter(t => Boolean(t.status));
-    if (tasks.length === 0) {
-      showEmpty(true);
-      return;
-    } else showEmpty(false);
+    if (tasks.length === 0) { showEmpty(true); return; } else showEmpty(false);
 
     tasks.forEach(task => {
-      const li = document.createElement('li');
-      li.className = 'task-item';
+      const li = document.createElement('li'); li.className = 'task-item';
 
       const left = document.createElement('div'); left.className = 'left';
-      const idSpan = document.createElement('div'); idSpan.className = 'task-id';
-      idSpan.textContent = shortId(task.id);
       const nameSpan = document.createElement('div'); nameSpan.className = 'task-name';
-      nameSpan.textContent = task.name;
+      nameSpan.textContent = task.name || '(no title)';
       if (task.status) nameSpan.classList.add('done');
 
-      left.appendChild(idSpan);
       left.appendChild(nameSpan);
 
       const controls = document.createElement('div'); controls.className = 'controls';
@@ -94,39 +70,42 @@
     });
   }
 
-  // add task (tries server-generated id first; if fails it will retry with client id)
+  // add task: try backend auto-id first; if backend expects id, fallback with client id
   async function addTask(name){
     if (!name || !name.trim()) return;
-    const payloadWithoutId = { name: name.trim(), status: false };
+    const payload = { name: name.trim(), status: false };
+
     try {
+      // try POSTing without id (preferred)
       let res = await fetch(`${API_BASE}/addtask`, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(payloadWithoutId)
+        body: JSON.stringify(payload)
       });
+
       if (!res.ok) {
-        // fallback: send with generated id (your backend currently expects id)
+        // fallback: backend wants id => generate client id
         const clientId = Date.now() % 1000000;
-        const payloadWithId = { id: clientId, ...payloadWithoutId };
+        const payloadWithId = { id: clientId, ...payload };
         res = await fetch(`${API_BASE}/addtask`, {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify(payloadWithId)
         });
       }
+
       if (res.ok) {
         input.value = '';
         await fetchTasks();
-        focusInput();
       } else {
         console.error('Add failed', res.status);
       }
-    } catch (e) {
-      console.error(e);
+    } catch(e){
+      console.error('Add error', e);
     }
   }
 
-  // delete
+  // delete task by id
   async function removeTask(task){
     if (!confirm('Delete this task?')) return;
     try {
@@ -136,7 +115,7 @@
     } catch(e){ console.error(e); }
   }
 
-  // toggle status
+  // toggle status (PUT)
   async function toggleStatus(task){
     const newStatus = !Boolean(task.status);
     const payload = { id: task.id, name: task.name, status: newStatus };
@@ -146,13 +125,11 @@
         headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify(payload)
       });
-      if (res.ok) fetchTasks();
-      else console.error('Update failed', res.status);
+      if (res.ok) fetchTasks(); else console.error('Update failed', res.status);
     } catch(e){ console.error(e); }
   }
 
-  // helpers
-  function focusInput(){ input.focus(); }
+  // events
   function bindEvents(){
     form.addEventListener('submit', (ev) => {
       ev.preventDefault();
@@ -163,9 +140,9 @@
     allBtn.addEventListener('click', () => { currentFilter='all'; setActive(allBtn); renderList(); });
   }
 
-  // initial
+  // init
   bindEvents();
   setActive(todoBtn);
   fetchTasks();
-  focusInput();
+  input.focus();
 })();

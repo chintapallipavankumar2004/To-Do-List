@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -10,16 +10,16 @@
   <main class="card">
     <header class="card-header">
       <h1>To-Do • Smart</h1>
-      <p class="sub">Do one thing that scares you everyday</p>
+      <p class="sub">Do one thing that scares you every day</p>
     </header>
 
-    <section class="input-ḁrea">
+    <section class="input-area">
       <form id="add-form" class="add-form" autocomplete="off">
         <input id="task-input" class="task-input" name="task" placeholder="Write a task and press Enter" />
-        <button id="add-btn" class="icon-btn" title="Add task">➤</button>
+        <button id="add-btn" class="icon-btn" title="Add task" type="submit">➤</button>
       </form>
 
-      <div class="filters">
+      <div class="filters" role="toolbar" aria-label="filters">
         <button id="btn-todo" class="filter-btn active">To-Do</button>
         <button id="btn-completed" class="filter-btn">Completed</button>
         <button id="btn-all" class="filter-btn">All</button>
@@ -28,12 +28,12 @@
 
     <section id="list-wrap" class="list-wrap">
       <div id="loading" class="loading">Loading…</div>
-      <ul id="task-list" class="task-list"></ul>
+      <ul id="task-list" class="task-list" aria-live="polite"></ul>
       <div id="empty" class="empty">No tasks to show</div>
     </section>
 
     <footer class="card-footer">
-      <small>Built with Spring Boot backend and MySQL DataBase</small>
+      <small>Built with Spring Boot backend and MySQL Database</small>
     </footer>
   </main>
 
