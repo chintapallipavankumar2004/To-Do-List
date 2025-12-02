@@ -1,64 +1,50 @@
-📝 To-Do List — Full Stack Application
+# 📝 To-Do List — Full Stack Application
 
-A simple and stylish To-Do List application built using:
+Welcome to the **To-Do List** — a modern, full stack application designed for productivity, built using the latest technologies.
 
-Spring Boot (Backend API)
+---
 
-MySQL Database
+## 🌟 What Makes This Project Innovative?
 
-HTML, CSS, JavaScript (Frontend)
+- **End-to-End Modern Stack:** Java 23 & Spring Boot 4 backend, MySQL for persistent storage, and a visually rich HTML/CSS/JS frontend.
+- **Live UI:** Enjoy a responsive, animated interface with instant feedback and auto-refresh.
+- **Smart Filters:** Effortlessly switch between To-Do, Completed, or All tasks.
+- **RESTful Architecture:** Seamless API integration for fast performance and scalability.
+- **Clean Structure:** Tidy and modular codebase — easy to extend and maintain!
+- **Real-World Ready:** User-friendly features like auto-increment task IDs and smooth UX.
+- **Open Source:** Freely adaptable for personal growth or team use!
 
-REST API Integration
+---
 
-This project allows users to add, view, mark complete, and delete tasks with a clean UI and fully working backend.
+## 🚀 Features
 
-🚀 Features
-✅ Backend (Spring Boot)
+- Create, list, complete, and delete tasks
+- Single-click complete/uncomplete actions
+- Intuitive filters: To-Do, Completed, All
+- Beautiful card-based design
+- Autorefresh on user actions
+- Mobile-ready responsive layout
 
-Add new tasks
+---
 
-Mark task as completed / uncompleted
+## 🛠️ Tech Stack
 
-Delete tasks
+**Backend:**  
+- Java 23+  
+- Spring Boot 4  
+- Spring Data JPA  
+- MySQL
 
-Fetch all tasks
+**Frontend:**  
+- HTML5  
+- CSS3  
+- JavaScript (using Fetch API)
 
-MySQL database storage
+---
 
-Auto-increment Task IDs
+## 📁 Project Structure
 
-🎨 Frontend (HTML + CSS + JS)
-
-Modern UI with card layout
-
-Smooth interactions
-
-Filters: To-Do / Completed / All
-
-Auto-refresh after actions
-
-Fully responsive design
-
-🛠️ Tech Stack
-Backend
-
-Java 23 (or compatible)
-
-Spring Boot 4
-
-Spring Data JPA
-
-MySQL Database
-
-Frontend
-
-HTML5
-
-CSS3
-
-JavaScript (Fetch API)
-
-📁 Folder Structure
+```
 To-Do-List/
  ├── src/
  │   ├── main/
@@ -68,61 +54,86 @@ To-Do-List/
  │   │   │     ├── repo/
  │   │   │     └── model/
  │   │   └── resources/
- │   │         ├── application.properties
- │   └── test/...
+ │   │         └── application.properties
+ │   └── test/
  ├── Frontend/
  │   ├── index.html
  │   ├── style.css
  │   └── app.js
  ├── pom.xml
  └── README.md
+```
 
-⚙️ How to Run Backend (Spring Boot)
-1️⃣ Create Database
+---
+
+## ⚙️ Quick Start
+
+### 1️⃣ Setup MySQL Database
+
+Create the database:
+
+```sql
 CREATE DATABASE todolist;
+```
 
-2️⃣ Configure application.properties
+### 2️⃣ Configure Backend
+
+Edit `src/main/resources/application.properties`:
+
+```
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/todolist
 spring.datasource.username=YOUR_MYSQL_USERNAME
 spring.datasource.password=YOUR_MYSQL_PASSWORD
-
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+```
 
-3️⃣ Run the Spring Boot App
+### 3️⃣ Run The Backend
 
-You can run using:
+- Using Maven:
+  ```sh
+  mvn spring-boot:run
+  ```
+- Or use your IDE's run button (IntelliJ/Eclipse).
 
-mvn spring-boot:run
+### 4️⃣ Launch The Frontend
 
+- Open the `Frontend` folder.
+- Start `index.html` (recommended: use Live Server extension).
 
-or using IntelliJ / Eclipse Run Button.
+**Note:** Ensure backend is running on `http://localhost:8080`
 
-🌐 API Endpoints
-Method	Endpoint	Description
-GET	/tasks	Get all tasks
-POST	/addtask	Add a new task
-PUT	/updatetask/{id}	Update task status/name
-DELETE	/deletetask/{id}	Delete a task
-💻 Running Frontend
+---
 
-Open the Frontend folder
+## 🌐 REST API Endpoints
 
-Launch index.html using Live Server
+| Method | Endpoint                | Description          |
+|--------|-------------------------|----------------------|
+|  GET   | `/tasks`                | Get all tasks        |
+| POST   | `/addtask`              | Add a new task       |
+|  PUT   | `/updatetask/{id}`      | Update status/name   |
+| DELETE | `/deletetask/{id}`      | Delete a task        |
 
-Make sure backend is running on http://localhost:8080
+---
 
+## 📸 User Interface Preview
 
-📸 UI Preview
+*Screenshots coming soon!*
 
-(Add screenshot links after uploading them in GitHub)
+---
 
-🙌 Author
+## 👨‍💻 Author
 
-CHINTAPALLI PAVAN KUMAR
-B.Tech CSE (AIML)
+**CHINTAPALLI PAVAN KUMAR**  
+B.Tech CSE (AIML)  
 Full Stack Developer | Java | Spring Boot | MySQL
 
-⭐ Show Your Support
+---
 
-If you like this project, consider giving it a star ⭐ on GitHub!
+## ⭐ Support
+
+If you found this project helpful or interesting, please leave a ⭐ star on GitHub!
+
+---
+
+Let’s build something extraordinary together — happy coding!
